@@ -5,6 +5,13 @@
  */
 package orai0413;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Win10
@@ -16,6 +23,8 @@ public class Ablak extends javax.swing.JFrame {
      */
     public Ablak() {
         initComponents();
+        setLocationRelativeTo(this);
+        
     }
 
     /**
@@ -28,23 +37,23 @@ public class Ablak extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        Lista = new javax.swing.JComboBox<>();
+        Hirlevel = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         Menü = new javax.swing.JMenu();
+        Ment = new javax.swing.JMenuItem();
         Beolvas = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Választható szakok", "Szoftverfejlesztő", "Rendszergazda", "CAD-CAM" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        Lista.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Választható szakok", "Szoftverfejlesztő", "Rendszergazda", "CAD-CAM" }));
+        Lista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                ListaActionPerformed(evt);
             }
         });
 
-        jCheckBox1.setText("Hírlevél");
+        Hirlevel.setText("Hírlevél");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -52,26 +61,31 @@ public class Ablak extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1))
+                    .addComponent(Lista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Hirlevel))
                 .addGap(0, 70, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Lista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox1)
+                .addComponent(Hirlevel)
                 .addGap(0, 22, Short.MAX_VALUE))
         );
 
         Menü.setText("Menü");
 
-        Beolvas.setText("Ment");
-        Menü.add(Beolvas);
+        Ment.setText("Ment");
+        Ment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MentActionPerformed(evt);
+            }
+        });
+        Menü.add(Ment);
 
-        jMenuItem2.setText("Beolvas");
-        Menü.add(jMenuItem2);
+        Beolvas.setText("Beolvas");
+        Menü.add(Beolvas);
 
         jMenuBar1.add(Menü);
 
@@ -97,9 +111,20 @@ public class Ablak extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void ListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaActionPerformed
+      
+    }//GEN-LAST:event_ListaActionPerformed
+
+    private void MentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MentActionPerformed
+   
+        try {
+            Ment();
+           JOptionPane.showMessageDialog(this, "Sikeres mentés"); 
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Hiba a mentéskor");
+        }
+        
+    }//GEN-LAST:event_MentActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,11 +163,27 @@ public class Ablak extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Beolvas;
+    private javax.swing.JCheckBox Hirlevel;
+    private javax.swing.JComboBox<String> Lista;
+    private javax.swing.JMenuItem Ment;
     private javax.swing.JMenu Menü;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    private void Ment() throws IOException {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Választott szak: " + Lista.getSelectedItem());
+    boolean hirlevel = Hirlevel.isSelected();
+        if (hirlevel==true) {
+            sb.append("\nKért-e hírlevelet? " + "igen");
+        }else
+        {
+             sb.append("\nKért-e hírlevelet? " + "nem");
+        }
+   
+   Files.write(Paths.get("Mentes.txt"), sb.toString().getBytes());
+            
+    
+    }
 }
