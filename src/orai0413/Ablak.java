@@ -24,7 +24,7 @@ public class Ablak extends javax.swing.JFrame {
     public Ablak() {
         initComponents();
         setLocationRelativeTo(this);
-        
+
     }
 
     /**
@@ -112,18 +112,18 @@ public class Ablak extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaActionPerformed
-      
+
     }//GEN-LAST:event_ListaActionPerformed
 
     private void MentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MentActionPerformed
-   
+
         try {
             Ment();
-           JOptionPane.showMessageDialog(this, "Sikeres mentés"); 
+            
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Hiba a mentéskor");
         }
-        
+
     }//GEN-LAST:event_MentActionPerformed
 
     /**
@@ -172,18 +172,50 @@ public class Ablak extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void Ment() throws IOException {
-    StringBuilder sb = new StringBuilder();
-    sb.append("Választott szak: " + Lista.getSelectedItem());
-    boolean hirlevel = Hirlevel.isSelected();
-        if (hirlevel==true) {
-            sb.append("\nKért-e hírlevelet? " + "igen");
-        }else
-        {
-             sb.append("\nKért-e hírlevelet? " + "nem");
+        StringBuilder sb = new StringBuilder();
+        boolean hirlevel = Hirlevel.isSelected();
+        
+           
+        
+        
+        
+        try {
+             if (!Lista.getSelectedItem().equals("Választható szakok")) {
+            sb.append("Választott szak: " + Lista.getSelectedItem());
+         
+            if(hirlevel == true){
+          sb.append("\nKért-e hírlevelet? " + "igen");
+        }else{
+          sb.append("\nKért-e hírlevelet? " + "nem");
         }
-   
-   Files.write(Paths.get("Mentes.txt"), sb.toString().getBytes());
-            
-    
+            }else{
+              JOptionPane.showMessageDialog(this, "Kérem válasszon egy szakot");}
+        } catch (Exception e) {
+           
+            JOptionPane.showMessageDialog(this, "Hiba");
+        
+        }
+        
+        
+        
+        
+
+        
+        
+//        if (!Lista.getSelectedItem().equals("Választható szakok")) {
+//            sb.append("Választott szak: " + Lista.getSelectedItem());
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Kérem válasszon egy szakot");
+//        }
+//
+//        if (hirlevel == true) {
+//            
+//            sb.append("\nKért-e hírlevelet? " + "igen");
+//        } else {
+//            sb.append("\nKért-e hírlevelet? " + "nem");
+//        }
+
+        Files.write(Paths.get("Mentes.txt"), sb.toString().getBytes());
+
     }
 }
